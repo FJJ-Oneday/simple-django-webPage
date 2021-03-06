@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %} 电影列表 {% endblock %}
+{% block contain %}
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Home</a>
+    </div>
+    <p class="navbar-text navbar-right"><a href="{% url 'web:login' %}" class="navbar-link">登录</a>
+    <a href="{% url 'web:register-page' %}" class="navbar-link">注册</a></p>
+  </div>
+</nav>
+
+<div class="row center">
+{% for item in page.object_list %}
+<div style="float: left;margin: 4pt;">
+<img src="{{ MEDIA_URL }}movie-pic/{{ item.name }}.jpg"
+     class="img-responsive" alt="{{ item.name }}">
+<p class="text-muted text-center">{{ item.name }}</p>
+</div>
+{% endfor %}
+</div>
+<div class="row center">
+<nav aria-label="Page navigation" style="text-align: center">
+  <ul class="pagination">
+    {% if page.has_previous %}
+    <li>
+      <a href="?page={{ page.previous_page_number }}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {% endif %}
+    {% for index in page_range %}
+        {% if index == page.number %}
+            <li><a href="?page={{ index }}" class="active">{{ index }}</a></li>
+        {% else %}
+            <li><a href="?page={{ index }}">{{ index }}</a></li>
+        {% endif %}
+    {% endfor %}
+    {% if page.has_next %}
+    <li>
+      <a href="?page={{ page.next_page_number }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+</div>
+{% if msg %}
+    <h1 class="bg-warning">{{ msg }}</h1>
+{% endif %}
+{% endblock %}

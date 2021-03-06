@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %} Welcome {% endblock %}
+{% block contain %}
+<div class="row" style="margin-top: 100pt;">
+<div class="col-md-3"></div>
+<div class="panel panel-default col-md-6">
+    <div class="panel-heading">
+        <h3 class="panel-title">邮箱</h3>
+    </div>
+    <div class="panel-body">
+        <form action="{% url 'web:send_mail' %}" method="post">
+            {% csrf_token %}
+            <div class="input-group">
+                <input type="email" class="form-control" placeholder="请输入你的邮箱" name="email">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">提交</button>
+                </span>
+            </div>
+        </form>
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+<div class="col-md-3"></div>
+</div>
+{% endblock %}
